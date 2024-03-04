@@ -28,18 +28,18 @@ This repository uses [PyTorch](https://pytorch.org/) and is built on top of [MMF
 The folders in this repo are structured as follows:
 
 - `configs/`:
-    - `experiments/` contains YAML configs to train each of the VQA models and corresponding selection functions.
-    - `datasets/` contains the YAML config for the custom `vqa2_extended` dataset.
-- `datasets/`: contains the dataset implementation and builder for `vqa2_extended`. This dataset is the same as VQA v2 within MMF, but it also supports additional model confidence outputs for the selection functions and multiple choice annotations for calibration evaluation.
+    - `experiments/` 각 VQA 모델 및 selection functions을 훈련하기 위한 YAML configs를 포함한다. 
+    - `datasets/` custom `vqa2_extended` dataset에 대한 YAML 구성을 포함한다.
+- `datasets/`: vqa2_extended를 구현하고 빌드하기 위한 데이터셋 구현과 빌더를 포함한다. 그리고 MMF 내에서의 VQA v2와 동일하지만, Selection function에 대한 추가 모델 신뢰도 출력과 calibration evaluation을 위한 다중 선택 주석을 지원한다. 
 - `eval_scripts/`: contains evaluation scripts for computing risk-coverage and Effective Reliability metrics in the paper.
-    - `reliable_vqa_eval.py`: contains an evaluator object that computes the different metrics.
-    - `run.py`: script for running the evaluations given model predictions and the ground truth annotations.
-    - `vqa.py`: contains an object for interfacing with the VQA v2 annotations and predictions.
-- `models/`: for each VQA model in our experiments, we register a version on top of the original model which returns additional confidence and intermediate feature outputs needed for the selection functions.
-    - `selective_predictors.py` contains implementations for both calibration and Selector models.
+    - `reliable_vqa_eval.py`: 다양한 메트릭을 계산하는 평가기 객체를 포함한다. 
+    - `run.py`: 모델 예측과 참값 주석을 제공하여 평가를 실행하는 스크립트이다.
+    - `vqa.py`: annotaion과 예측과 상호 작용하기 위한 객체를 포함한다.
+- `models/`: 각 VQA 모델에 대해 원본 모델 위에 등록된 버전을 포함하며, Selection function에 필요한 추가 confidence 및 중간 특성 출력을 반환한다.
+    - `selective_predictors.py` 데이터 보정 및 Selection 모델의 구현을 포함한다.
 - `modules/`:
-    - `losses.py` contains the correctness-prediction loss function for learned Selector models.
-    - `metrics.py` contains implementations of the risk-coverage and Effective Reliability metrics in MMF for validation.
+    - `losses.py` 학습된 selection 모델에 대한 정확도 예측 손실 함수를 포함한다. 
+    - `metrics.py` 검증을 위한 MMF의 위험-커버리지 및 효과적 신뢰도 메트릭의 구현파일이다. 
 - `__init__.py`: imports custom MMF components to be used by MMF.
 
 
