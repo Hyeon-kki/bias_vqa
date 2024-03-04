@@ -30,23 +30,28 @@ The folders in this repo are structured as follows:
 - `configs/`:
     - `experiments/` 각 VQA 모델 및 selection functions을 훈련하기 위한 YAML configs를 포함한다. 
     - `datasets/` custom `vqa2_extended` dataset에 대한 YAML 구성을 포함한다.
-- `datasets/`: vqa2_extended를 구현하고 빌드하기 위한 데이터셋 구현과 빌더를 포함한다. 그리고 MMF 내에서의 VQA v2와 동일하지만, Selection function에 대한 추가 모델 신뢰도 출력과 calibration evaluation을 위한 다중 선택 주석을 지원한다. 
+      
+- `datasets/`: vqa2_extended를 구현하고 빌드하기 위한 데이터셋 구현과 빌더를 포함한다. 그리고 MMF 내에서의 VQA v2와 동일하지만, Selection function에 대한 추가 모델 신뢰도 출력과 calibration evaluation을 위한 다중 선택 주석을 지원한다.
+  
 - `eval_scripts/`: contains evaluation scripts for computing risk-coverage and Effective Reliability metrics in the paper.
     - `reliable_vqa_eval.py`: 다양한 메트릭을 계산하는 평가기 객체를 포함한다. 
     - `run.py`: 모델 예측과 참값 주석을 제공하여 평가를 실행하는 스크립트이다.
     - `vqa.py`: annotaion과 예측과 상호 작용하기 위한 객체를 포함한다.
+      
 - `models/`: 각 VQA 모델에 대해 원본 모델 위에 등록된 버전을 포함하며, Selection function에 필요한 추가 confidence 및 중간 특성 출력을 반환한다.
     - `selective_predictors.py` 데이터 보정 및 Selection 모델의 구현을 포함한다.
+      
 - `modules/`:
     - `losses.py` 학습된 selection 모델에 대한 정확도 예측 손실 함수를 포함한다. 
-    - `metrics.py` 검증을 위한 MMF의 위험-커버리지 및 효과적 신뢰도 메트릭의 구현파일이다. 
+    - `metrics.py` 검증을 위한 MMF의 위험-커버리지 및 효과적 신뢰도 메트릭의 구현파일이다.
+      
 - `__init__.py`: imports custom MMF components to be used by MMF.
 
 
 ## Environment Setup
-Please follow the MMF installation instructions here: https://mmf.sh/docs/. We recommend installing from source. Note, when installing from source, you do not need to clone the MMF repository under this repo. You can simply clone MMF to its own directory. We also recommend using a conda environment for the installation and running, which can be used for both MMF and this repo.
+https://mmf.sh/docs/ 에서 MMF 설치 지침을 따르십시오. 소스에서 설치하는 것을 권장한다. 설치할 때 이 저장소 아래에 MMF 저장소를 복제할 필요가 없다. MMF를 자체 디렉토리에 클론하면 됩니다. 또한 설치 및 실행에 conda 환경을 사용하는 것을 권장한다.
 
-Following the MMF installation, your environment should have Python 3.7+ and PyTorch 1.6+ installed. You will also need scikit-learn 1.0+ and pandas 1.3.4+.
+Python 3.7+ and PyTorch 1.6+ scikit-learn 1.0+ pandas 1.3.4+.
 
 
 ## Data Setup
