@@ -28,21 +28,29 @@ This repository uses [PyTorch](https://pytorch.org/) and is built on top of [MMF
 The folders in this repo are structured as follows:
 
 - `configs/`:
-    - `experiments/` 각 VQA 모델 및 selection functions을 훈련하기 위한 YAML configs를 포함한다. 
+  
+    - `experiments/` 각 VQA 모델 및 selection functions을 훈련하기 위한 YAML configs를 포함한다.
+      
     - `datasets/` custom `vqa2_extended` dataset에 대한 YAML 구성을 포함한다.
       
 - `datasets/`: vqa2_extended를 구현하고 빌드하기 위한 데이터셋 구현과 빌더를 포함한다. 그리고 MMF 내에서의 VQA v2와 동일하지만, Selection function에 대한 추가 모델 신뢰도 출력과 calibration evaluation을 위한 다중 선택 주석을 지원한다.
   
 - `eval_scripts/`: contains evaluation scripts for computing risk-coverage and Effective Reliability metrics in the paper.
-    - `reliable_vqa_eval.py`: 다양한 메트릭을 계산하는 평가기 객체를 포함한다. 
+  
+    - `reliable_vqa_eval.py`: 다양한 메트릭을 계산하는 평가기 객체를 포함한다.
+      
     - `run.py`: 모델 예측과 참값 주석을 제공하여 평가를 실행하는 스크립트이다.
+      
     - `vqa.py`: annotaion과 예측과 상호 작용하기 위한 객체를 포함한다.
       
 - `models/`: 각 VQA 모델에 대해 원본 모델 위에 등록된 버전을 포함하며, Selection function에 필요한 추가 confidence 및 중간 특성 출력을 반환한다.
+  
     - `selective_predictors.py` 데이터 보정 및 Selection 모델의 구현을 포함한다.
       
 - `modules/`:
-    - `losses.py` 학습된 selection 모델에 대한 정확도 예측 손실 함수를 포함한다. 
+  
+    - `losses.py` 학습된 selection 모델에 대한 정확도 예측 손실 함수를 포함한다.
+      
     - `metrics.py` 검증을 위한 MMF의 위험-커버리지 및 효과적 신뢰도 메트릭의 구현파일이다.
       
 - `__init__.py`: imports custom MMF components to be used by MMF.
@@ -56,7 +64,7 @@ Python 3.7+ and PyTorch 1.6+ scikit-learn 1.0+ pandas 1.3.4+.
 
 ## Data Setup
 
-**TL;DR:** We use the [VQA v2](https://visualqa.org/) dataset. We split the VQA v2 validation set into 3 parts and provide the annotations below. We also extract custom grid features for the CLIP-ViL model, provided below. All other annotations and features are automatically downloaded by MMF, as specified by each of the configs in this repo.
+**TL;DR:** 우리는 VQA v2 데이터셋을 사용한다. (https://visualqa.org/) VQA v2 검증 세트를 3개 부분으로 나누고 아래에 어노테이션을 제공한다. 또한, CLIP-ViL 모델을 위해 사용자 정의 grid features을 추출했다. 이 저장소의 각 구성에 지정된 대로, 기타 모든 어노테이션과 피쳐는 MMF에 의해 자동으로 다운로드 된다.
 
 ### Downloading Annotations and Features
 
