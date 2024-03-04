@@ -179,14 +179,21 @@ manualMap = {
     "ten": "10",
 }
 articles = ["a", "an", "the"]
+# 숫자와 점 사이의 공백을 제거하는데 사용
 periodStrip = re.compile("(?!<=\d)(\.)(?!\d)")
+# 숫자 사이의 쉼표를 제거하는데 사용
 commaStrip = re.compile("(?<=\d)(\,)+(?=\d)")
+# 문장부호 앞뒤의 공백을 제거
 puncStrip = re.compile(
     r"(?<=[ \\;/\"`\[\](){}<>@=+_\-,?!])([\\;/\"`\[\](){}<>@=+_\-,?!])|([\\;/\"`\[\](){}<>@=+_\-,?!])(?=[ \\;/\"`\[\](){}<>@=+_\-,?!])"
 )
+# 알파벳 앞뒤의 문장부호를 제거
 puncStrip2 = re.compile(r"(?<=[a-zA-Z])([\\;/\"`\[\](){}<>@=+_\-,?!])(?=[a-zA-Z])")
+# 문장부호가 문자열의 시작에 있는 경우를 제거
 puncStripBegin = re.compile(r"\A([ \\;/\"`\[\](){}<>@=+_\-,?!]+)(?=[a-zA-Z0-9 ])")
+# 문장부호가 문자열의 끝에 있는 경우를 제거
 puncStripEnd = re.compile(r"(?<=[a-zA-Z0-9 ])([ \\;/\"`\[\](){}<>@=+_\-,?!]+)\Z")
+# 속된 공백을 하나의 공백으로 줄이는데 사용
 spaceCleanup = re.compile(r"([ ]+)")
 punct = [
     ";",
@@ -212,9 +219,20 @@ punct = [
     "!",
 ]
 
+# OrderedDict 생성
+# ordered_dict = OrderedDict()
 
+# # 항목 추가
+# ordered_dict['a'] = 1
+# ordered_dict['b'] = 2
+# ordered_dict['c'] = 3
+
+# # 순서대로 항목 출력
+# for key, value in ordered_dict.items():
+#     print(key, value)
 class ReliabilityEval:
     def __init__(self, quesIds, risk_tolerances=None, costs=None, n=2):
+        #  반올림할 소수점 이하 자릿수를
         self.n = n
         self.accuracy = {}
         self.evalQA = OrderedDict()
@@ -222,8 +240,9 @@ class ReliabilityEval:
         self.evalQuesType = {}
         self.evalAnsType = {}
         self.all_qids = quesIds
-
+        # 1% 10% 20% 등등
         self.risk_tolerances = risk_tolerances
+        # Penalty
         self.costs = costs
 
         if self.risk_tolerances is None:
@@ -274,11 +293,12 @@ class ReliabilityEval:
     def computeAccuracy(self, vqa, vqaRes, quesIds=None, is_threshold=False):
         accQA = []
         step = 0
-
         for quesId in quesIds:
+            # VQA class에서 qa 살펴보기 
             gt = vqa.qa[quesId]
             res = vqaRes.qa[quesId]
-
+            
+            # Ground truth와 predicted한 truth 비교
             for ansDic in gt["answers"]:
                 ansDic["answer"] = ansDic["answer"].replace("\n", " ")
                 ansDic["answer"] = ansDic["answer"].replace("\t", " ")
@@ -287,7 +307,8 @@ class ReliabilityEval:
             resAns = resAns.replace("\n", " ")
             resAns = resAns.replace("\t", " ")
             resAns = resAns.strip()
-
+            
+            # confidence의 의미가 뭐지? 
             resConf = res["confidence"]
 
             gtAcc = []
@@ -297,6 +318,7 @@ class ReliabilityEval:
                 for ansDic in gt["answers"]:
                     ansDic["answer"] = self.processPunctuation(ansDic["answer"])
                     ansDic["answer"] = self.processDigitArticle(ansDic["answer"])
+                # GT and Predict 전처리 
                 resAns = self.processPunctuation(resAns)
                 resAns = self.processDigitArticle(resAns)
 
@@ -305,6 +327,7 @@ class ReliabilityEval:
                 otherGTAns = [item for item in gt["answers"] if item != gtAnsDatum]
                 matchingAns = [item for item in otherGTAns if item["answer"] == resAns]
                 acc = min(1, float(len(matchingAns)) / 3)
+                # Sum 하기 전 해당 Question에 대한 ACC 구한 것이다. 
                 gtAcc.append(acc)
             #######################################################
             avgGTAcc = float(sum(gtAcc)) / len(gtAcc)
@@ -317,6 +340,7 @@ class ReliabilityEval:
         if not is_threshold:
             self.setAccuracy(accQA)
 
+    ### 특정 텍스트에서 문장부호를 처리하고 정제하는 함수
     def processPunctuation(self, inText):
         outText = puncStripBegin.sub("", inText)
         outText = puncStripEnd.sub("", outText)
@@ -327,7 +351,9 @@ class ReliabilityEval:
         outText = puncStrip2.sub("", outText)
         outText = periodStrip.sub("", outText, re.UNICODE)
         return outText
-
+    
+    ### 디지털 기사는 일반적으로 문맥에서 제외되어야 하는 'a', 'an', 'the'와 같은 기사를 의미합니다. 
+    ###  이 함수는 주어진 텍스트를 받아서 기사를 제외하고, 약어(contractions)를 전체 단어로 확장하고, 그 결과를 반환한다. 
     def processDigitArticle(self, inText):
         outText = []
         tempText = inText.lower().split()
