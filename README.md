@@ -16,7 +16,11 @@ This repository uses [PyTorch](https://pytorch.org/) and is built on top of [MMF
 - Training configs for the models in our work.
 - Download links for the VQA v2 dataset splits, trained model checkpoints, and pre-extracted features used in our work.
 
-**Update:** The previous version of this repo unintentionally used the default ground truth answers in MMF in the field `answers` which has slightly different reference answers (e.g., it replaces some entries if they are not in the vocabulary of 3k answers). Therefore, we provide a standalone evaluation script ([eval_scripts/](eval_scripts/)) that uses the original VQA v2 annotations as references for evaluations. This update is reflected in the arXiv version (please see Changelog in the appendix) and future work should use the updated evaluations for reporting results.
+**Update:** 이전 버전의 이 저장소는 MMF의 기본 참값을 실수로 사용하여, 다른 참조 정답(예: 어휘 3k 답변의 어휘에 없는 경우 일부 항목을 대체함)을 가진 필드 정답을 사용했습니다. 따라서, 우리는 평가에 원래의 VQA v2 주석을 참조로 사용하는 독립 실행형 평가 스크립트(eval_scripts/)를 제공합니다. 이 업데이트는 arXiv 버전에 반영되었으며(부록의 변경 로그를 참조하십시오), 향후 작업에서는 결과 보고에 업데이트된 평가를 사용해야 합니다.
+
+
+
+
 
 
 ## Repo Organization
